@@ -4,11 +4,11 @@
   
     
     <entry>
-      <title>代码演示</title>
+      <title>C++对象的一些知识点</title>
       <link href="/2023/03/23/%E6%BC%94%E7%A4%BA/"/>
       <url>/2023/03/23/%E6%BC%94%E7%A4%BA/</url>
       
-        <content type="html"><![CDATA[<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">a</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;hello world&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+        <content type="html"><![CDATA[<h3 id="让字符指针指向string时，需要将string-0-的地址赋给字符指针"><a href="#让字符指针指向string时，需要将string-0-的地址赋给字符指针" class="headerlink" title="让字符指针指向string时，需要将string[0]的地址赋给字符指针"></a>让字符指针指向string时，需要将string[0]的地址赋给字符指针</h3><p>下面的例子就是样例</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">#include&lt;cstring&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    string s=&quot;hello wordla!&quot;;</span><br><span class="line">    char *p;</span><br><span class="line">    p = &amp;s[0];</span><br><span class="line">    cout&lt;&lt;p&lt;&lt;endl;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>所以遇到带参的构造函数时，如果遇到形参为（char*）的，对应想要传进去的字符串，直接 &amp;对应字符串[0]， 就可以了。</p>]]></content>
       
       
       
