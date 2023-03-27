@@ -17,11 +17,11 @@
     
     
     <entry>
-      <title>git bash</title>
+      <title>算法的知识</title>
       <link href="/2023/03/23/git-bash/"/>
       <url>/2023/03/23/git-bash/</url>
       
-        <content type="html"><![CDATA[<h2 id="git的使用"><a href="#git的使用" class="headerlink" title="git的使用"></a>git的使用</h2><p>hello</p>]]></content>
+        <content type="html"><![CDATA[<p>今天遇到一题算法题，涉及到排序sort的bool判断值，如果能用到多重排序，题目就会好解很多<br>其内容是这样的：</p><p>…….明早再补了</p><p>先上代码块：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include&lt;bits/stdc++.h&gt; </span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">const int N = 1e5 + 7;</span><br><span class="line">struct NODE&#123;</span><br><span class="line">    long long a,w;</span><br><span class="line">&#125;node [N];</span><br><span class="line">long long n,sum,ans;</span><br><span class="line">bool cmp(NODE n1, NODE n2)&#123;</span><br><span class="line">    if(n1.a &lt; n2.a) return true;</span><br><span class="line">    if(n1.a == n2.a &amp;&amp; n1.w &lt;= n2.w) return true;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br><span class="line">int main( )</span><br><span class="line">&#123;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    for (int i=1;i&lt;=n;i++)&#123;</span><br><span class="line">        cin&gt;&gt;node[i].a&gt;&gt;node[i].w;</span><br><span class="line">        sum += node[i].w;</span><br><span class="line">    &#125;</span><br><span class="line">    sort(node + 1,node+n+1,cmp);</span><br><span class="line">    NODE temp = node[0];</span><br><span class="line">    for(int i=1;i&lt;=n+1;i++)&#123;</span><br><span class="line">        if(node[i].a != temp.a)</span><br><span class="line">            ans += temp.w;</span><br><span class="line">        temp = node[i];</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;sum - ans;</span><br><span class="line">    </span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       
       
       
