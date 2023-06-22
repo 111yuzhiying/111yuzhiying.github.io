@@ -4,7 +4,32 @@
   
     
     <entry>
-      <title>关于private调用问题</title>
+      <title>基类对象初始化基类对象</title>
+      <link href="/2023/06/22/%E5%9F%BA%E7%B1%BB%E5%AF%B9%E8%B1%A1%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9F%BA%E7%B1%BB%E5%AF%B9%E8%B1%A1/"/>
+      <url>/2023/06/22/%E5%9F%BA%E7%B1%BB%E5%AF%B9%E8%B1%A1%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9F%BA%E7%B1%BB%E5%AF%B9%E8%B1%A1/</url>
+      
+        <content type="html"><![CDATA[<p>在C++的期末考试中，遇到了关于用子类对象去初始化基类对象的情况，并且综合运用了<br>指针、引用与直接调用的方式进行相应的操作，以判断相应的输出结果。相应的代码如下：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">class A&#123;</span><br><span class="line">    public:</span><br><span class="line">    int i=10;</span><br><span class="line">    virtual void print()&#123;cout&lt;&lt;&quot;class A=&quot;&lt;&lt;i&lt;&lt;endl;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">class B:public A&#123;</span><br><span class="line">    public:</span><br><span class="line">    B(void)&#123;i=20;&#125;</span><br><span class="line">    void print()&#123;cout&lt;&lt;&quot;classB&quot;&lt;&lt;endl;&#125;</span><br><span class="line">&#125;;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    B b;</span><br><span class="line">    A a1 = b;      // 此处使用赋值的方式进行初始化。基类对象的数据将会被覆盖，但是基类的虚函数指针不变</span><br><span class="line">    A &amp;a2 = b;      // 以引用的方式进行基类对象的初始化</span><br><span class="line">    A *a3 = &amp;b;     // 以指针的方式进行基类对象的初始化</span><br><span class="line">    a1.print();</span><br><span class="line">    a2.print();</span><br><span class="line">    a3-&gt;print();</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>相应的结果如下：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class A=20</span><br><span class="line">class B</span><br><span class="line">class B</span><br></pre></td></tr></table></figure><p>从上述结果可以很清楚的看到，由于基函数中将void print()函数声明为了virtual函数，因此，当采用赋值的方式时，其函数部分还是virtual声明的函数部分，但是所调用的数据则是子类对象本身的。但是通过引用和指针的方式，则顺利地调用子类对象的print()函数，这种方法跟声明一个指向基类的指针，然后指向子类对象的道理其实是一样的。</p><p>有趣的是，当我去掉virtual声明后的结果就有一点不一样了：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">class A&#123;</span><br><span class="line">    public:</span><br><span class="line">    int i=10;</span><br><span class="line">    virtual void print()&#123;cout&lt;&lt;&quot;class A=&quot;&lt;&lt;i&lt;&lt;endl;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">class B:public A&#123;</span><br><span class="line">    public:</span><br><span class="line">    B(void)&#123;i=20;&#125;</span><br><span class="line">    void print()&#123;cout&lt;&lt;&quot;classB&quot;&lt;&lt;endl;&#125;</span><br><span class="line">&#125;;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    B b;</span><br><span class="line">    A a1 = b;      // 此处使用赋值的方式进行初始化。基类对象的数据将会被覆盖，但是基类的虚函数指针不变</span><br><span class="line">    A &amp;a2 = b;      // 以引用的方式进行基类对象的初始化</span><br><span class="line">    A *a3 = &amp;b;     // 以指针的方式进行基类对象的初始化</span><br><span class="line">    a1.print();</span><br><span class="line">    a2.print();</span><br><span class="line">    a3-&gt;print();</span><br><span class="line">    return 0;</span><br></pre></td></tr></table></figure><p>相应的结果是：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">classA=20</span><br><span class="line">classA=20</span><br><span class="line">classA=20</span><br></pre></td></tr></table></figure><p>事实上，并不是很难理解。除去了virtual后，虽然说是在子类对象中是用同名进行覆盖了print()函数，但覆盖本身就是说有基类的内容，只是不显示而已。其相当于在子类对象将从基类继承过来的print()函数进行了基类的函数以及数据的初始化，用的还是基类自己的函数。当然，相应的数据还是被子类对象的数据进行了刷新的。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> C plus plus </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C plus plus </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>关于类对象的private调用问题</title>
       <link href="/2023/06/22/%E5%85%B3%E4%BA%8Eprivate%E8%B0%83%E7%94%A8%E9%97%AE%E9%A2%98/"/>
       <url>/2023/06/22/%E5%85%B3%E4%BA%8Eprivate%E8%B0%83%E7%94%A8%E9%97%AE%E9%A2%98/</url>
       
@@ -29,12 +54,37 @@
     
     
     <entry>
-      <title>Cherno视频</title>
+      <title>cheno第一篇</title>
       <link href="/2023/05/27/Cherno%E8%A7%86%E9%A2%91/"/>
       <url>/2023/05/27/Cherno%E8%A7%86%E9%A2%91/</url>
       
         <content type="html"><![CDATA[<h2 id="学习油管大佬C-的一些随笔集"><a href="#学习油管大佬C-的一些随笔集" class="headerlink" title="学习油管大佬C++的一些随笔集"></a>学习油管大佬C++的一些随笔集</h2><p>事情的起由是同学问我C++学得怎样的时候听我说就啃了谭浩强之后，叫我看一下这个油管的讲，事实上愈到后面，就真的啃不下去了，最终定格在了80集左右，感觉有空的话多看看这些C++知识还是可以的。链接如下：<br><a href="https://www.bilibili.com/video/BV1uy4y167h2/?spm_id_from=333.788&vd_source=ed9e2e298fac45cc6798bd67cd16499a">Cherno C++</a></p><h3 id="1-编译器是怎么工作的："><a href="#1-编译器是怎么工作的：" class="headerlink" title="1.编译器是怎么工作的："></a>1.编译器是怎么工作的：</h3><p>计算机底层运行的都是01二进制串，要运行类似这样的代码:</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    std::cout&lt;&lt;&quot;hello world!&quot;;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>需要先将其转化为二进制机器码才可使机器正常运行，而转化这些代码为机器码的过程就叫做编译。</p><p>编译的第一步————配置(configure)</p><p>配置说白了就是电脑的环境不同，所下载的软件放在的电脑的哪个位置，所生成的编译文件要放哪。这可能是比较繁琐的过程，相信大家都有过为软件配置环境的过程。可以抽象的想象计算机像一间房子，不同的计算机的房子都不一样，同样的进门左转，小明家是厕所，小红家是厨房，进错了空间就完不成相应的目的了。所以，配环境是第一步，也是事半功倍的一步，所以还是要慢慢来，不然后边都白搞了，但是环境配好后就是起飞的第一步了。</p><p>编译的第二步————确定标准库和头文件的位置</p><p>这一步其实还是属于配置环境这一步。当你的源码中有类似<br> <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br></pre></td></tr></table></figure><br>等等这些官方标准库函数和头文件时，需要告诉编译器它们在哪里，然后才才能将使用到它们的函数时能够跳到那一地方，将其代码进行编译。具体的操作就是通过配置文件，给出几个存放这些官方(standard library)和头文件(header)的目录，让编译器在遇到这些地方时能够在这些目录去找，而不是显示”找不到头文件或未声明相应的头文件”</p><p>编译的第三步————确定依赖关系</p><p>对于一个大型项目来说，源码文件的编译之间往往有依赖关系，比如用户自定义的头文件时，需要先编译。就好像定义一个类时，往往在头文件定义成员(往往包括数据成员和函数成员)，然后在类实现cpp中要引入用户自定义的类头文件，进而写具体实现相应成员函数的代码实现。这时候就需要编译器确定编译的先后顺序。假定现有A文件依赖于B文件，此时编译器应要保证以下两点：</p><pre><code>(1) 只有在B文件编译完成后，才开始编译A文件；(2) 只有当B文件发生变化时，A文件会被重新编译。</code></pre><p>编译顺序保存在一个叫做makefile的文件中，里面就有列出了相应的编译顺序，确定了哪个文件先编译，哪个文件后编译。而这一makefile文件是由configure脚本生成的，这也就解释为什么要configure是编译的第一步了，配置错误的话，编译器也不知道该生成怎样的makefile文件了。</p><p>编译的第四步————头文件的预编译</p><p>不同的源码文件，可能引用同一个头文件（如<iostream>）。在编译的时候，头文件也必须一起编译。为节省时间，编译器会在编译源码之前，先编译头文件。这就保证了头文件只需编译一次即可，不必每次调用的时候都需重新编译。(事实上这里涉及到一个概念————“链接”)。</p><p>当然，并不是所有头文件的内容都会被预编译。用来声明#define命令的，就不会预编译。</p><p>编译的第五步————预处理(Preprocessing)</p><p>预编译完成后，编译器就开始替换掉源码中的头文件和宏。再具体的说明如下：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    std::cout&lt;&lt;&quot;hello world!&quot;;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这样看似简单的代码就会编译为：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">标准库中的函数的定义，包括但不限于上述代码中用到的冠以&quot;&lt;&lt;&quot;符号的定义，函数的重载以及定义等一大堆头文件的内容。其会很长很长，关键还是看所引入的那个库的大小了。注意这里引入的也只是头文件中的声明，具体的实现代码还要等到下面所说的链接部分。</span><br><span class="line">接着才是上述写的代码的编译。</span><br></pre></td></tr></table></figure><p>此时，插入的<br>另外，编译器在这一步还会移除与代码运行无关的注释。</p><p>编译的第六步————编译(Compilation)</p><p>在预处理(Preprocessing)后，编译器就开始生成机器码。经典的《计算机科学与技术导论》上面的步骤是：先把源码转为汇编码，然后将汇编码转为机器码。</p><p>最终得到的转码后的文件称为对象文件(Object file)</p><p>编译的第七步————连接(Linking)</p><p>前面所创建的对象文件还不能运行，必须要进一步转化为可执行文件(.exe)。事实上，这时候需要做的就是将先前(Preprocessing)所替换的类似函数声明的地方，引入相应的函数代码(通常是后缀名为.lib和.a的文件)，添加到可执行文件中。这叫做链接(Link)。这种通过拷贝，将外部函数库添加到可执行文件中的方式，叫做静态链接(static linking)，后面还会提到动态链接(dynamic linking)</p><p>第八步 安装(Installation)</p><p>上一步所生成的链接是在内存中进行的，即所生成的可执行文件(.exe)还在内存中。下一步，则需将生成的可执行文件保存到用户事先所指定的安装目录中去。</p><p>表面上，这一步很简单，就是将可执行文件（连带相关的数据文件）拷贝过去就行了。但是实际上，这一步还必须完成创建目录、保存文件、设置权限等步骤。这整个的保存过程就称为”安装”（Installation）。</p><p>编译的第九步————操作系统连接</p><p>可执行文件(.exe)成功安装后，必须以某种方式通知操作系统，让其知道可以使用这个程序。</p><p>这就要求在操作系统中，登记该程序的元数据：文件名、文件描述、关联后缀名等。</p><p>这就叫做”操作系统连接”。</p><p>编译的第十步————生成安装包<br>到这里时，对源码的编译过程基本上已经结束。但是，如果你只有源码交给用户，他们会认定你肯定是一个不友好的家伙。大部分用户想要的是直接能够运行的二进制可执行文件。这就要求开发者将上一步生成的可执行文件做成可以分发的安装包。(感觉这一步就跟我们日常生活很接近了，那就是上网下载某一个软件的安装包，然后执行安装程序后就可以直接用了~)</p><p>因此，编译器还必须有生成安装包的功能。通常是将可执行文件(连带相关的数据文件)，以某种目录结构，保存成压缩文件包，交给用户。</p><p>编译的第十一步————动态链接(Dynamic linking)</p><p>正常情况下，到这一步时，程序已经可以运行了。至于可执行程序在运行期间(runtime)发生的事情，与编译器一概无关。但是，开发者可以在编译阶段选择可执行文件连接到外部函数库的方式，到底是静态链接(在编译时连接)，还是动态连接(在程序运行时连接)。</p><p>这里解释一下动态连接的概念：<br>前面已经说过，静态连接就是把外部函数库拷贝到可执行文件中。这样做的好处是，适用范围比较广，不用担心用户运行的电脑中缺少某个库文件，但缺点是这样生成的安装包会比较大，而且在多个应用程序之间运行时，无法共享库文件。动态连接的做法正好相反，外部函数库不进入安装包，只在运行时动态引用。由此带来的好处是，安装包会比较小，多个应用程序可以共享库文件；其缺点就是依赖用户已经事先安装好了库文件，而且版本和安装位置都比较符合要求，否则就不能够正常运行。</p><p>现实中，大部分软件采用的是动态连接，共享库文件。这种动态共享文件在Linux平台中的后缀名为.so的文件，Windows平台中是.dll文件，Mac平台中是.dylib文件。</p>]]></content>
       
+      
+      <categories>
+          
+          <category> Cherno视频 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>机器学习</title>
+      <link href="/2023/05/26/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+      <url>/2023/05/26/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> 机器学习 </category>
+          
+      </categories>
       
       
     </entry>
@@ -73,6 +123,12 @@
       
         <content type="html"><![CDATA[<p>今天遇到一题算法题，涉及到排序sort的bool判断值，如果能用到多重排序，题目就会好解很多。<br>其题目是这样的：</p><p>…….明早再补了<br>[<img src="https://s1.ax1x.com/2023/03/28/ppyImcQ.png" alt="ppyImcQ.png"></p><p>先上AC代码块：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include&lt;bits/stdc++.h&gt; </span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">const int N = 1e5 + 7;</span><br><span class="line">struct NODE&#123;</span><br><span class="line">    long long a,w;</span><br><span class="line">&#125;node [N];</span><br><span class="line">long long n,sum,ans;</span><br><span class="line">bool cmp(NODE n1, NODE n2)&#123;</span><br><span class="line">    if(n1.a &lt; n2.a) return true;</span><br><span class="line">    if(n1.a == n2.a &amp;&amp; n1.w &lt;= n2.w) return true;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br><span class="line">int main( )</span><br><span class="line">&#123;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    for (int i=1;i&lt;=n;i++)&#123;</span><br><span class="line">        cin&gt;&gt;node[i].a&gt;&gt;node[i].w;</span><br><span class="line">        sum += node[i].w;</span><br><span class="line">    &#125;</span><br><span class="line">    sort(node + 1,node+n+1,cmp);</span><br><span class="line">    NODE temp = node[0];</span><br><span class="line">    for(int i=1;i&lt;=n+1;i++)&#123;</span><br><span class="line">        if(node[i].a != temp.a)</span><br><span class="line">            ans += temp.w;</span><br><span class="line">        temp = node[i];</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;sum - ans;</span><br><span class="line">    </span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>sort排序中的自定义排序需要头文件&lt;algorithm&gt;<br>bool cmp()函数名只是便于知道这是一个比较函数，通过所返回的bool值来实行具体的排序顺序，其名字可以随意，只要满足是bool类型返回值以及符合变量命名规则即可。</p><p>sort排序中默认的排序规则是从小到大，是升序排序。那么如何改变这一默认排序规则呢？<br>举个栗子：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">#include&lt;algorithm&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">bool cmp(int a,int b)</span><br><span class="line">&#123;</span><br><span class="line">    return a&gt;b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这里的逻辑是：sort排序默认是a&amp;ltb是返回true的布尔值，而这里返回a&amp;gtb,则返回false与默认的true所矛盾，因此需要改变默认的排序方式。其实就是有一个简单的记忆方法————将想要进行的排序return true，不想的排序则返回false即可。需要注意的是，return 即代表函数的结束，函数体内剩下没执行的代码则会被忽略掉。</p><p>结构体也可以根据其成员数据进行排序，举个栗子：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include&lt;algorithm&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">struct node&#123;</span><br><span class="line">    int a;</span><br><span class="line">    int b;</span><br><span class="line">    int c;</span><br><span class="line">&#125;;</span><br><span class="line">bool cmp(node x,node y)&#123;   //传入两个结构体对象</span><br><span class="line">    if(x.a!=y.a) return x.a&lt;y.a;</span><br><span class="line">    if(x.b!=y.b) return x.b&gt;y.b;</span><br><span class="line">    if(x.c!=y.c) return x.c&lt;y.c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>这里定义的cmp是先按照a进行升序排序，如果a相同的话对b及逆行降序排序，如果两个结构体中a、b数据成员均相等的话，就以数据成员c进行升序排序。</p><p>而对于本题而言，其实也是根据结构体内部的数据进行排序，先利用其用数字来代表课的种类，因此可以根据课的种类对课程先进行一个升序排序，让同一种课能够在连续的一段，然后在课程的内部再进行升序排序。这样的话，在一种课的类别的最后就是该课程的最大疲劳度，再利用for循环对其最后端进行累加得到各个类别课的疲劳度的最大值的累加和ans。到这里只需在一开始输入的时候累加各门课的疲劳度即可得到总疲劳度sum，最后总疲劳度sum减去最大疲劳度累加和ans即可得到答案。</p><p>###C++进制转换的技巧</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">//dec——decimal是十进制 cout&lt;&lt;dec&lt;&lt;a 就会把b转换成10进制再输出；</span><br><span class="line">//hex——hexadecimal是16进制 cout&lt;&lt;dec&lt;&lt;a 就会把b转换成16进制再输出；</span><br><span class="line">//oct——octomal是八进制 cout&lt;&lt;dec&lt;&lt;a 就会把b转换成8进制再输出；</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    int a;</span><br><span class="line">    cin&gt;&gt;a;</span><br><span class="line">    cout&lt;&lt;oct&lt;&lt;a;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       
+      
+      <categories>
+          
+          <category> 算法 </category>
+          
+      </categories>
       
       
         <tags>
