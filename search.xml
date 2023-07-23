@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>git上项目的合作贡献</title>
+      <link href="/2023/07/23/git%E4%B8%8A%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%90%88%E4%BD%9C%E8%B4%A1%E7%8C%AE/"/>
+      <url>/2023/07/23/git%E4%B8%8A%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%90%88%E4%BD%9C%E8%B4%A1%E7%8C%AE/</url>
+      
+        <content type="html"><![CDATA[<h3 id="该经验仅限于后续加入项目的成员进行开发项目的关联与贡献操作"><a href="#该经验仅限于后续加入项目的成员进行开发项目的关联与贡献操作" class="headerlink" title="该经验仅限于后续加入项目的成员进行开发项目的关联与贡献操作"></a>该经验仅限于后续加入项目的成员进行开发项目的关联与贡献操作</h3><ul><li><p>首先不能通过下载安装包的形式，这样的话没有通过gitbash进行管理，就不能够将本地的分支与远程仓库的分支进行连接了，就无法进行正常的git pull与git push了；</p></li><li><p>第二，对git clone下来的文件中进行代码的创作后，先要git pull origin “你现在所在的分支的名字”,关联远程仓库中该分支的信息，便于后续的更新。</p></li><li><p>第三，git push origin “本地分支所开发的分支”</p></li><li><p>第四，然后在github项目中会看到一个小绿的东西，那就是所谓的”PR”，即push request推送到仓库分支的请求</p></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> github </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> github 上的开发经验 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>基类对象初始化基类对象</title>
       <link href="/2023/06/22/%E5%9F%BA%E7%B1%BB%E5%AF%B9%E8%B1%A1%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9F%BA%E7%B1%BB%E5%AF%B9%E8%B1%A1/"/>
       <url>/2023/06/22/%E5%9F%BA%E7%B1%BB%E5%AF%B9%E8%B1%A1%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9F%BA%E7%B1%BB%E5%AF%B9%E8%B1%A1/</url>
