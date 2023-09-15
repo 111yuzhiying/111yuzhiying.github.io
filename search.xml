@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>数据结构作业学生健康管理系统</title>
+      <link href="/2023/09/15/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AD%A6%E7%94%9F%E5%81%A5%E5%BA%B7%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/"/>
+      <url>/2023/09/15/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AD%A6%E7%94%9F%E5%81%A5%E5%BA%B7%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/</url>
+      
+        <content type="html"><![CDATA[<h1 id="数据结构作业遇到的问题"><a href="#数据结构作业遇到的问题" class="headerlink" title="数据结构作业遇到的问题"></a>数据结构作业遇到的问题</h1><ul><li>C++ : 出错解释 base operand of ‘-&gt;’ has non-pointer type ‘std::pair&lt;int, int&gt;’<br>由于是在项目作业里面的，代码量比较长，故此处引用csdn上的类似报错代码</li></ul><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">list&lt;pair&lt;int,int&gt;&gt; cachelist;</span><br><span class="line">unordered_map&lt;int,list&lt;pair&lt;int,int&gt;&gt;::iterator&gt; map;</span><br><span class="line"></span><br><span class="line">void put(int key, int value) &#123;</span><br><span class="line">    auto it = map.find(key);</span><br><span class="line">    if(it != map.end())&#123;</span><br><span class="line">        touch(it-&gt;second);</span><br><span class="line">        it-&gt;second-&gt;second = value; // </span><br><span class="line">    &#125;</span><br><span class="line">    else if(map.size() &lt; cap)&#123;</span><br><span class="line">        cachelist.push_front(make_pair(key,value));</span><br><span class="line">        map[key]=cachelist.begin();</span><br><span class="line">    &#125;</span><br><span class="line">    else&#123;</span><br><span class="line">        auto it = cachelist.back();// </span><br><span class="line">        map.erase(it-&gt;first); // 出错位置~~！！</span><br><span class="line">        cachelist.pop_back();</span><br><span class="line">        cachelist.push_front(make_pair(key,value));</span><br><span class="line">        map[key]=cachelist.begin();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>上述代码中的错误关键代码处</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">it-&gt;first</span><br></pre></td></tr></table></figure><p>这里需要知道的是“-&gt;”是适用于指针的形式，其本质是从指针上面调用地址方面，即&amp;。只有这样才可以用箭头指向符。而上述代码中it这个变量不是指针，而是一个int类型数据，其并无“-&gt;”的用法，所以此处要用“.”作为具体内容的引入。</p><ul><li>jump to case label [-fpermissive]报错<br>该报错的原因是switch case语句中定义新变量的时候并未限定该新变量的范围，故保持错误。具体的错误代码如下：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">switch(choice)&#123;</span><br><span class="line">    case 1:int a=2;break;</span><br><span class="line">    case 2:break;</span><br><span class="line">    default:break;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>正确的代码应为：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">switch(choice)&#123;</span><br><span class="line">    case 1:&#123;</span><br><span class="line">        int a=2;</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">    case 2:break;</span><br><span class="line">    default:break;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> debug </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 日常小bug </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>B站大佬的关于MySQL的详细笔记及链接</title>
       <link href="/2023/08/02/MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E7%89%88%E6%9C%AC%E7%AC%94%E8%AE%B0/"/>
       <url>/2023/08/02/MySQL%E7%9A%84%E8%AF%A6%E7%BB%86%E7%89%88%E6%9C%AC%E7%AC%94%E8%AE%B0/</url>
